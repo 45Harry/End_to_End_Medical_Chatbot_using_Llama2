@@ -1,0 +1,4 @@
+*.env
+model/*.bin
+Medical_Chatbot.egg-info
+.git
