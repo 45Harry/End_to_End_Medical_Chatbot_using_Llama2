@@ -1,39 +1,61 @@
 # End-to-End Medical Chatbot using Llama2
 
-This project is an end-to-end medical chatbot application powered by Llama2, LangChain, and Pinecone. It allows users to interact with a medical knowledge base through a conversational web interface, providing helpful and context-aware answers to medical queries.
-
----
+This project is an end-to-end medical chatbot application powered by Llama2/Groq, LangChain, and Pinecone. It provides accurate medical information through a conversational web interface, leveraging advanced language models and vector search capabilities.
 
 ## Features
 
-- **Conversational Medical Assistant:** Ask medical questions and receive contextually relevant answers.
-- **Llama2 Language Model:** Utilizes a local Llama2 model for generating responses.
-- **Document Retrieval:** Uses Pinecone vector database and HuggingFace embeddings to retrieve relevant medical documents.
-- **PDF Knowledge Base:** Easily ingest and index medical PDFs for chatbot knowledge.
-- **Modern Web UI:** Clean, Bootstrap-based chat interface for seamless user experience.
+- **Advanced Medical Assistant:** 
+  - Structured responses for medical queries
+  - Natural conversation handling
+  - Context-aware answers
+  - Source citations when available
 
----
+- **Multiple LLM Support:** 
+  - Local Llama2 model integration
+  - Groq cloud API integration
+  - Flexible model switching
 
-## How It Works
+- **Vector Search:** 
+  - Pinecone vector database integration
+  - HuggingFace embeddings
+  - Efficient medical document retrieval
 
-1. **PDF Ingestion:** Medical PDFs are loaded and split into text chunks.
-2. **Embedding & Indexing:** Chunks are embedded using HuggingFace models and indexed in Pinecone.
-3. **User Query:** User submits a question via the web chat.
-4. **Retrieval & Response:** Relevant chunks are retrieved, and Llama2 generates a helpful answer using a custom prompt template.
+- **Enhanced User Experience:**
+  - Clean Bootstrap-based chat interface
+  - Markdown-formatted responses
+  - Mobile-responsive design
 
----
+## Technical Architecture
+
+1. **Document Processing Pipeline:**
+   - PDF ingestion and chunking
+   - HuggingFace embedding generation
+   - Pinecone vector indexing
+
+2. **Query Processing:**
+   - User input analysis
+   - Context-based retrieval
+   - Structured response generation
+
+3. **Response Generation:**
+   - Custom prompt templates
+   - Source-backed answers
+   - Format-specific outputs
 
 ## Project Structure
 
-- `app.py` — Main Flask app, handles chat logic and model inference.
-- `src/helper.py` — PDF loading, text splitting, and embedding utilities.
-- `src/prompt.py` — Custom prompt template for Llama2.
-- `templates/chat.html` — Bootstrap-based chat UI.
-- `requirements.txt` — Python dependencies.
-- `model/` — Directory for the Llama2 model file.
-- `data/` — Directory for PDF documents.
-
----
+```
+End_to_End_Medical_Chatbot_using_Llama2/
+├── app.py              # Main Flask application
+├── src/
+│   ├── helper.py       # Utility functions
+│   └── prompt.py       # Prompt templates
+├── templates/
+│   └── chat.html       # Web interface
+├── model/              # LLM model directory
+├── data/              # Medical PDF storage
+└── requirements.txt    # Dependencies
+```
 
 ## Setup Instructions
 
@@ -48,41 +70,51 @@ This project is an end-to-end medical chatbot application powered by Llama2, Lan
    pip install -r requirements.txt
    ```
 
-3. **Download the Llama2 model:**
-   - Place your `llama-2-7b-chat.ggmlv3.q4_0.bin` file in the `model/` directory.
+3. **Environment Setup:**
+   Create a `.env` file:
+   ```
+   PINECONE_API_KEY=your_pinecone_api_key
+   GROQ_API_KEY=your_groq_api_key
+   ```
 
-4. **Set up Pinecone:**
-   - Create a `.env` file with your Pinecone API key:
-     ```
-     PINECONE_API_KEY=your_pinecone_api_key
-     ```
+4. **Model Setup:**
+   - For Local Llama2:
+     Place `llama-2-7b-chat.ggmlv3.q4_0.bin` in `model/` directory
+   - For Groq:
+     Ensure valid API key in `.env`
 
-5. **Add your medical PDFs:**
-   - Place PDF files in the `data/` directory and run the indexing script if needed.
+5. **Data Preparation:**
+   - Add medical PDFs to `data/` directory
+   - Run indexing script if needed
 
-6. **Run the app:**
+6. **Launch Application:**
    ```bash
    python app.py
    ```
-   - Access the chatbot at `http://localhost:5000`.
+   Access at `http://localhost:5000`
 
----
+## Response Format
 
-## Example Prompt Template
+The chatbot provides structured responses for medical queries:
 
-```
-Use the following pieces of information to answer the user's question.
-If you don't know the answer, just say that you don't know, don't try to make up an answer.
+- **Basic Definition:** Clear, concise explanation
+- **Key Characteristics:** Main features and details
+- **Types and Classifications:** Categories if applicable
+- **Clinical Significance:** Impact and implications
 
-Context: {context}
-Question: {input}
+## Environment Variables
 
-Only return the helpful answer below and nothing else.
-Helpful answer:
-```
-
----
+Required environment variables:
+- `PINECONE_API_KEY`: For vector database access
+- `GROQ_API_KEY`: For cloud LLM access (if using Groq)
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the MIT License. See LICENSE file for details.
+
+## Acknowledgments
+
+- LangChain for the chain-of-thought framework
+- Pinecone for vector search capabilities
+- Meta for Llama2 model
+- Groq for cloud LLM services
