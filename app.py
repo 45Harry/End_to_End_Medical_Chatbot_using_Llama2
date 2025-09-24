@@ -11,9 +11,13 @@ from dotenv import load_dotenv
 from src.prompt import *
 import os
 
+
+from langchain_groq import ChatGroq
+
 # Load the Pinecone api key
 load_dotenv()
 PINECONE_API_KEY = os.environ.get('PINECONE_API_KEY')
+GROQ_API_KEY = os.environ.get('GROQ_API_KEY')
 
 
 # Initialize the Flask
@@ -32,13 +36,22 @@ docsearch = PineconeVectorStore.from_existing_index(
 
 # Create the prompt
 prompt = PromptTemplate(
-    template=prompt_template,input_variables=['context','input'],
+    template=prompt_template,
+    input_variables=['context','input'],
+    partial_variables={'system_prompt': system_prompt}
+
 )
 chain_type_kwargs = {'prompt':prompt}
 
 #Load the LLM
-llm = LlamaCpp(model_path='./model/llama-2-7b-chat.ggmlv3.q4_0.bin',
-               temperature =0.8,)
+#llm = LlamaCpp(model_path='./model/llama-2-7b-chat.ggmlv3.q4_0.bin',
+#              temperature =0.8,)
+
+llm = ChatGroq(
+        temperature=0.6,
+        model_name="llama-3.3-70b-versatile",
+        api_key=GROQ_API_KEY
+    )
                   
 
 
